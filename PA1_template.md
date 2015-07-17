@@ -1,4 +1,4 @@
-Reproducible Research: Peer Assessment 1
+Reproducible Research: Assignment 1
 ==========================================
 
 ### Initial settings
@@ -12,6 +12,8 @@ options(scipen = 1)
 ### Load and preprocess the data
 
 ```r
+echo = TRUE
+# dataset downloaded through the course website
 # unzip(zipfile="repdata-data-activity.zip")
 dt <- read.csv("./activity.csv")
 str(dt)
@@ -37,11 +39,12 @@ steps.total <- tapply(dt$steps, dt$date, FUN=sum, na.rm=TRUE)
 ```r
 library(ggplot2)
 # qplot defaults to "histogram" if only x is specified.
-qplot(steps.total, binwidth=200,
+qplot(steps.total, binwidth=1200,
       xlab="total number of steps taken each day",
-      ylab="number of days (frequency)") + 
+      ylab="number of days (frequency)", 
+      main="total number of steps taken each day") +
       theme_bw()+
-      scale_y_discrete(breaks=c(1:10))
+      scale_y_discrete(breaks=c(1:20))
 ```
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
@@ -81,7 +84,7 @@ ggplot(data=steps.average.interval, aes(x=interval, y=steps)) +
     geom_line() +
     xlab("5-minute interval") +
     ylab("average number of steps taken") +
-    labs(title="average number of steps (across all days) taken by the 5-minute intervals") +
+    labs(title="average number of steps (across all days) \ntaken by the 5-minute intervals") +
     theme_bw()
 ```
 
@@ -220,11 +223,12 @@ steps.total.new <- tapply(dt.new$steps, dt.new$date, FUN=sum)
 # a histogram of the total number of steps taken each day
 library(ggplot2)
 # qplot defaults to "histogram" if only x is specified.
-qplot(steps.total.new, binwidth=200,
+qplot(steps.total.new, binwidth=1200,
       xlab="total number of steps taken each day",
-      ylab="number of days (frequency)") + 
+      ylab="number of days (frequency)", 
+      main="total number of steps taken each day (filled data)") +
       theme_bw()+
-      scale_y_discrete(breaks=c(1:10))
+      scale_y_discrete(breaks=c(1:20))
 ```
 
 ![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png) 
@@ -252,7 +256,6 @@ steps.med.new
 * _**Following the imputation, the average of the total number of steps taken per day is 10764 and the median is 10740.**_
 * _**So the new mean is greater than the old mean (9354).**_ 
 * _**Also, the new median is greater than the old median (10395).**_
-* _**The total daily number of steps for the days that initialy included NAs increased**_
 
 ### Are there differences in activity patterns between weekdays and weekends?
 
@@ -298,7 +301,8 @@ ggplot(steps.average.intervalday, aes(interval, steps)) +
     facet_grid(wday ~ .) +
     theme_bw() +
     xlab("5-minute interval") + 
-    ylab("average number of steps taken (filled data)")
+    ylab("average number of steps taken (filled data)") +
+    labs(title="average number of steps (across all weekdays and weekends) \ntaken by the 5-minute intervals")
 ```
 
 ![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14-1.png) 
